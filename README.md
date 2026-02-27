@@ -36,6 +36,8 @@ docker build -t lab1:v1 .
 docker run lab1:v1
 ```
 ### Result
+![WhatsApp Image 2026-02-27 at 3 50 55 PM](https://github.com/user-attachments/assets/80d2034e-f3dd-4c6a-b82e-269bb57ffd18)
+
 
 ---
 
