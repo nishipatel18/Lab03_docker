@@ -3,146 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancer Classifier | AI Diagnosis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Cancer Classifier</title>
     <style>
-        :root {
-            --primary: #00f2ff;
-            --secondary: #bd00ff;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
         body {
-            font-family: 'Roboto', sans-serif;
-            background: radial-gradient(circle at top left, #1a1a2e, #16213e, #0f172a);
-            color: #e2e8f0;
-            margin: 0;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            margin: 0;
         }
-        .container { width: 90%; max-width: 550px; }
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            margin-bottom: 1.5rem;
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
         }
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.6rem;
             text-align: center;
+            color: #333;
             margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
+            font-size: 1.5rem;
         }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .input-group { margin-bottom: 0.8rem; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+        .input-group { display: flex; flex-direction: column; }
         label {
-            display: block;
-            margin-bottom: 0.3rem;
             font-size: 0.75rem;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #555;
+            margin-bottom: 3px;
         }
         input[type="number"] {
-            width: 100%;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            padding: 10px 12px;
-            border-radius: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             font-size: 0.9rem;
             box-sizing: border-box;
+            width: 100%;
         }
         input[type="number"]:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(0,242,255,0.2);
+            border-color: #4a90e2;
         }
-        button.submit-btn {
+        button {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            border: none;
-            border-radius: 12px;
+            padding: 12px;
+            background-color: #4a90e2;
             color: white;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
+            border: none;
+            border-radius: 6px;
             font-size: 1rem;
             cursor: pointer;
-            margin-top: 1rem;
-            letter-spacing: 2px;
+            margin-top: 1.2rem;
         }
-        button.submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-        .result-box { display: none; text-align: center; padding: 1.5rem; }
-        .result-box.active { display: block; }
-        .result-label { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin: 10px 0; }
-        .benign { color: #00f2ff; }
-        .malignant { color: #ff4d4d; }
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 50px;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            font-size: 0.8rem;
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 10px;
+        button:hover { background-color: #357abd; }
+        .result {
+            display: none;
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
+        .benign { background-color: #e6f4ea; color: #2e7d32; }
+        .malignant { background-color: #fdecea; color: #c62828; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <div class="glass-card">
-            <h1>CANCER CLASSIFIER</h1>
-            <form id="predictionForm">
-                <div class="grid">
-                    <div class="input-group"><label>Mean Radius</label><input type="number" id="feature_0" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Mean Texture</label><input type="number" id="feature_1" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Mean Perimeter</label><input type="number" id="feature_2" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Mean Area</label><input type="number" id="feature_3" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Mean Smoothness</label><input type="number" id="feature_4" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Mean Compactness</label><input type="number" id="feature_5" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Mean Concavity</label><input type="number" id="feature_6" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Mean Concave Points</label><input type="number" id="feature_7" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Mean Symmetry</label><input type="number" id="feature_8" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Mean Fractal Dim</label><input type="number" id="feature_9" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>SE Radius</label><input type="number" id="feature_10" step="0.001" placeholder="0.000" required></div>
-                    <div class="input-group"><label>SE Texture</label><input type="number" id="feature_11" step="0.001" placeholder="0.000" required></div>
-                    <div class="input-group"><label>SE Perimeter</label><input type="number" id="feature_12" step="0.001" placeholder="0.000" required></div>
-                    <div class="input-group"><label>SE Area</label><input type="number" id="feature_13" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>SE Smoothness</label><input type="number" id="feature_14" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>SE Compactness</label><input type="number" id="feature_15" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>SE Concavity</label><input type="number" id="feature_16" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>SE Concave Points</label><input type="number" id="feature_17" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>SE Symmetry</label><input type="number" id="feature_18" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>SE Fractal Dim</label><input type="number" id="feature_19" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Worst Radius</label><input type="number" id="feature_20" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Worst Texture</label><input type="number" id="feature_21" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Worst Perimeter</label><input type="number" id="feature_22" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Worst Area</label><input type="number" id="feature_23" step="0.01" placeholder="0.00" required></div>
-                    <div class="input-group"><label>Worst Smoothness</label><input type="number" id="feature_24" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Worst Compactness</label><input type="number" id="feature_25" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Worst Concavity</label><input type="number" id="feature_26" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Worst Concave Pts</label><input type="number" id="feature_27" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Worst Symmetry</label><input type="number" id="feature_28" step="0.0001" placeholder="0.0000" required></div>
-                    <div class="input-group"><label>Worst Fractal Dim</label><input type="number" id="feature_29" step="0.0001" placeholder="0.0000" required></div>
-                </div>
-                <button type="submit" class="submit-btn">ANALYZE</button>
-            </form>
-        </div>
-        <div id="resultArea" class="glass-card result-box">
-            <div class="badge">DIAGNOSIS RESULT</div>
-            <div id="predictedClass" class="result-label"></div>
+        <h1>Breast Cancer Classifier</h1>
+        <form id="predictionForm">
+            <div class="grid">
+                <div class="input-group"><label>Mean Radius</label><input type="number" id="feature_0" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Mean Texture</label><input type="number" id="feature_1" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Mean Perimeter</label><input type="number" id="feature_2" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Mean Area</label><input type="number" id="feature_3" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Mean Smoothness</label><input type="number" id="feature_4" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Mean Compactness</label><input type="number" id="feature_5" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Mean Concavity</label><input type="number" id="feature_6" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Mean Concave Points</label><input type="number" id="feature_7" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Mean Symmetry</label><input type="number" id="feature_8" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Mean Fractal Dim</label><input type="number" id="feature_9" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>SE Radius</label><input type="number" id="feature_10" step="0.001" placeholder="0.000" required></div>
+                <div class="input-group"><label>SE Texture</label><input type="number" id="feature_11" step="0.001" placeholder="0.000" required></div>
+                <div class="input-group"><label>SE Perimeter</label><input type="number" id="feature_12" step="0.001" placeholder="0.000" required></div>
+                <div class="input-group"><label>SE Area</label><input type="number" id="feature_13" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>SE Smoothness</label><input type="number" id="feature_14" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>SE Compactness</label><input type="number" id="feature_15" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>SE Concavity</label><input type="number" id="feature_16" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>SE Concave Points</label><input type="number" id="feature_17" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>SE Symmetry</label><input type="number" id="feature_18" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>SE Fractal Dim</label><input type="number" id="feature_19" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Worst Radius</label><input type="number" id="feature_20" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Worst Texture</label><input type="number" id="feature_21" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Worst Perimeter</label><input type="number" id="feature_22" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Worst Area</label><input type="number" id="feature_23" step="0.01" placeholder="0.00" required></div>
+                <div class="input-group"><label>Worst Smoothness</label><input type="number" id="feature_24" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Worst Compactness</label><input type="number" id="feature_25" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Worst Concavity</label><input type="number" id="feature_26" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Worst Concave Pts</label><input type="number" id="feature_27" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Worst Symmetry</label><input type="number" id="feature_28" step="0.0001" placeholder="0.0000" required></div>
+                <div class="input-group"><label>Worst Fractal Dim</label><input type="number" id="feature_29" step="0.0001" placeholder="0.0000" required></div>
+            </div>
+            <button type="submit">Analyze</button>
+        </form>
+        <div id="resultArea" class="result">
+            <span id="predictedClass"></span>
         </div>
     </div>
     <script>
@@ -160,10 +134,11 @@
                     dataType: 'json'
                 }).done(function(data) {
                     var cls = data.predicted_class;
-                    $('#predictedClass').text(cls.toUpperCase())
+                    $('#predictedClass').text(cls);
+                    $('#resultArea')
                         .removeClass('benign malignant')
-                        .addClass(cls.toLowerCase());
-                    $('#resultArea').addClass('active');
+                        .addClass(cls.toLowerCase())
+                        .show();
                 }).fail(function() {
                     alert('Error connecting to server.');
                 });
