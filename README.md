@@ -1,4 +1,4 @@
-# Docker ML Labs 🐳
+# Docker ML Labs 
 
 ## Overview
 This repository contains two Docker-based Machine Learning labs. Each lab trains a different ML model on a different dataset and serves predictions via a web interface.
