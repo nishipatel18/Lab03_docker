@@ -1,2 +1,11 @@
-docker build -t app .
-docker run app
+# Lab2 - Breast Cancer Classifier
+
+## Run with Docker Compose (Recommended)
+docker-compose up --build
+
+## Run with Dockerfile
+docker build -t lab2:v1 .
+docker run -p 80:4000 lab2:v1
+
+## Access the app
+http://localhost/predict
