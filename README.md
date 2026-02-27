@@ -15,9 +15,6 @@ This repository contains two Docker-based Machine Learning labs. Each lab trains
 
 ### Model
 - **Algorithm:** Logistic Regression
-- **Library:** scikit-learn
-- **Test Size:** 20%
-- **Accuracy:** ~100%
 
 ### How It Works
 The model is trained on the Wine dataset and saved as `wine_model.pkl`. The container runs the training script and prints the accuracy.
