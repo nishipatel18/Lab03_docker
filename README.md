@@ -38,12 +38,7 @@ cd Lab1
 docker build -t lab1:v1 .
 docker run lab1:v1
 ```
-
 ### Result
-```
-Model Accuracy: 100.00%
-The model training was successful
-```
 
 ---
 
@@ -94,8 +89,8 @@ http://localhost/predict
 
 ### Result
 Enter the 30 feature values and click **Analyze** to get:
-- 🟢 **BENIGN** — non-cancerous
-- 🔴 **MALIGNANT** — cancerous
+- **BENIGN** — non-cancerous
+- **MALIGNANT** — cancerous
 
 ---
 
