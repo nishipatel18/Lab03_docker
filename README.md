@@ -90,6 +90,8 @@ http://localhost/predict
 Enter the 30 feature values and click **Analyze** to get:
 - **BENIGN** — non-cancerous
 - **MALIGNANT** — cancerous
+![WhatsApp Image 2026-02-27 at 4 48 53 PM](https://github.com/user-attachments/assets/b9044314-13e6-466b-8885-f66287818278)
+![WhatsApp Image 2026-02-27 at 4 49 54 PM](https://github.com/user-attachments/assets/e1cee82b-7591-42d5-841b-ffa45e35b3de)
 
 ---
 
